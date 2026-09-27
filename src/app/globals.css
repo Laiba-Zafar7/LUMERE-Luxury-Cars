@@ -1,26 +1,206 @@
 @import "tailwindcss";
 
+/* ------------------------------------------------------------------
+   NOCTRA design system
+   Single source of truth for colour, type, spacing, radii, motion.
+   ------------------------------------------------------------------ */
+
+@theme {
+  /* colour */
+  --color-black: #050505;
+  --color-black-soft: #0a0a0a;
+  --color-charcoal: #111111;
+  --color-surface: #171717;
+  --color-surface-2: #1f1f1f;
+  --color-white: #f5f5f2;
+  --color-white-soft: #d8d8d3;
+  --color-grey: #92928d;
+  --color-grey-dark: #5f5f5b;
+  --color-line: rgba(245, 245, 242, 0.14);
+  --color-line-soft: rgba(245, 245, 242, 0.08);
+  --color-accent: #d0101a;
+  --color-accent-hover: #e3141f;
+  --color-accent-deep: #7a0a0a;
+
+  /* fonts (next/font variables are set on <html>) */
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-audiowide), var(--font-geist-sans), ui-sans-serif, sans-serif;
+
+  /* type scale */
+  --text-hero: clamp(4.5rem, 17vw, 17rem);
+  --text-display: clamp(2.25rem, 5vw, 4.5rem);
+  --text-h2: clamp(1.75rem, 3vw, 2.75rem);
+  --text-h3: clamp(1.25rem, 1.6vw, 1.5rem);
+  --text-lead: clamp(1.0625rem, 1.3vw, 1.25rem);
+  --text-small: 0.875rem;
+  --text-meta: 0.8125rem;
+  --text-micro: 0.6875rem;
+
+  /* radii */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* layout */
+  --page-margin: clamp(20px, 5vw, 88px);
+  --max-content: 1440px;
+  --nav-height: 72px;
+  --section-y: clamp(96px, 12vw, 160px);
+
+  /* motion */
+  --transition-fast: 180ms;
+  --transition-base: 320ms;
+  --transition-slow: 700ms;
+
+  /* z-index */
+  --z-base: 1;
+  --z-raised: 10;
+  --z-nav: 50;
+  --z-overlay: 40;
+  --z-modal: 100;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/* ------------------------------------------------------------------ base */
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  background: var(--color-black);
+  color-scheme: dark;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-black);
+  color: var(--color-white);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-white);
+}
+
+:focus-visible {
+  outline: 1px solid var(--color-white);
+  outline-offset: 3px;
+}
+
+img,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+/* ------------------------------------------------------------------ utilities */
+
+@utility container-page {
+  width: 100%;
+  max-width: calc(var(--max-content) + var(--page-margin) * 2);
+  margin-inline: auto;
+  padding-inline: var(--page-margin);
+}
+
+@utility section-y {
+  padding-block: var(--section-y);
+}
+
+/* display headings: font + tracking + leading */
+@utility heading {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.12;
+}
+
+@utility meta {
+  font-size: var(--text-meta);
+  line-height: 1.4;
+  color: var(--color-grey);
+}
+
+@utility eyebrow {
+  font-size: var(--text-micro);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-grey);
+}
+
+/* Giant metallic wordmark (hero, collection, footer) */
+@utility wordmark {
+  font-family: var(--font-display);
+  font-size: var(--text-hero);
+  line-height: 0.8;
+  letter-spacing: -0.02em;
+  background-image: linear-gradient(
+    180deg,
+    #fafaf7 0%,
+    #c9c9c4 38%,
+    #6d6d69 70%,
+    rgba(80, 80, 76, 0) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  user-select: none;
+}
+
+/* Image hover zoom used across cards */
+@utility media-zoom {
+  transition: transform var(--transition-slow) var(--ease-out);
+  .group:hover & {
+    transform: scale(1.03);
+  }
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+/* Marquee */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.animate-marquee {
+  animation: marquee 40s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
