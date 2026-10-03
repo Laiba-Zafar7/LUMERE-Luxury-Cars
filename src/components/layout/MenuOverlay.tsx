@@ -90,7 +90,7 @@ export default function MenuOverlay({ open, onClose }: Props) {
         aria-hidden
         className="wordmark pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 text-center opacity-40 blur-md"
       >
-        NOCTRA
+        LUMÈRE
       </div>
 
       <nav

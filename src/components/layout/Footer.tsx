@@ -72,14 +72,14 @@ export default function Footer() {
         </div>
 
         <div className="mt-20 flex flex-col gap-2 border-t border-line-soft pt-6 text-micro text-grey-dark sm:flex-row sm:justify-between">
-          <p>© {new Date().getFullYear()} NOCTRA Motors. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} LUMÈRE Motors. All rights reserved.</p>
           <p>Static showroom — prices exclude taxes and delivery.</p>
         </div>
       </Reveal>
 
       {/* Giant wordmark, cropped by the page edge */}
       <div aria-hidden className="mt-8 overflow-hidden">
-        <p className="wordmark translate-y-[14%] text-center">NOCTRA</p>
+        <p className="wordmark translate-y-[14%] text-center">LUMÈRE</p>
       </div>
     </footer>
   );

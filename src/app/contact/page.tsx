@@ -8,7 +8,7 @@ import CTASection from "@/components/sections/CTASection";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: "Book a private viewing or test drive, or ask NOCTRA to source a specific car.",
+  description: "Book a private viewing or test drive, or ask LUMÈRE to source a specific car.",
 };
 
 export default function ContactPage() {

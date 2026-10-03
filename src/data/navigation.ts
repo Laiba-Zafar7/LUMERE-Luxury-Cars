@@ -21,7 +21,7 @@ export const utilityLinks = [
 
 export const contactDetails = {
   phone: "+1 (310) 555 0182",
-  email: "concierge@noctra.com",
+  email: "concierge@lumeremotors.com",
   address: "8420 Wilshire Blvd, Beverly Hills, CA",
   hours: "Mon–Sat, 10:00–19:00",
 };

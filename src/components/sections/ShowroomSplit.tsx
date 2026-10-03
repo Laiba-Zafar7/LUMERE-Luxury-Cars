@@ -15,7 +15,7 @@ export default function ShowroomSplit() {
             More than a showroom. A destination for people who love to drive.
           </h2>
           <p data-reveal className="mt-6 max-w-md text-small text-grey">
-            NOCTRA rethinks buying a car: curated vehicles, honest
+            LUMÈRE rethinks buying a car: curated vehicles, honest
             presentation, private viewings and a team that knows every car on
             the floor by heart.
           </p>

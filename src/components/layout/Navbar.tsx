@@ -73,9 +73,9 @@ export default function Navbar() {
           <Link
             href="/"
             className="heading justify-self-start text-[15px] tracking-[0.2em]"
-            aria-label="NOCTRA home"
+            aria-label="LUMÈRE home"
           >
-            NOCTRA
+            LUMÈRE
           </Link>
 
           <button

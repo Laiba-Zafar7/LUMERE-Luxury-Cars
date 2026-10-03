@@ -19,8 +19,8 @@ const audiowide = Audiowide({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
   title: {
-    default: "NOCTRA — Curated Performance & Luxury Cars",
-    template: "%s — NOCTRA",
+    default: "LUMÈRE — Curated Performance & Luxury Cars",
+    template: "%s — LUMÈRE",
   },
   description:
     "A curated showroom of performance and luxury vehicles. Inspected, certified and ready for the road.",

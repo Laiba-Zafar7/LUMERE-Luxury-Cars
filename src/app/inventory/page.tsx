@@ -7,7 +7,7 @@ import { vehicles } from "@/data/vehicles";
 export const metadata: Metadata = {
   title: "Inventory",
   description:
-    "Browse NOCTRA's curated inventory of performance and luxury cars. Filter by brand, body type and condition.",
+    "Browse LUMÈRE's curated inventory of performance and luxury cars. Filter by brand, body type and condition.",
 };
 
 export default function InventoryPage() {

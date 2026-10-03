@@ -15,7 +15,7 @@ export default function WhatSetsUsApart() {
           <Reveal className="lg:sticky lg:top-[calc(var(--nav-height)+48px)]">
             <p data-reveal className="eyebrow mb-5 flex items-center gap-3">
               <span aria-hidden className="h-px w-6 bg-accent" />
-              Why NOCTRA
+              Why LUMÈRE
             </p>
             <h2 data-reveal className="heading text-h2">
               What sets

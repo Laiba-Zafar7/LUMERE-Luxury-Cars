@@ -5,49 +5,25 @@ import { gsap, useGSAP } from "@/components/animations/gsap";
 import { ButtonLink } from "@/components/ui/Button";
 
 type Props = {
-  poster: {
-    desktop?: string;
-    mobile?: string;
-    img: React.ImgHTMLAttributes<HTMLImageElement>;
-  };
-  videoSrc?: string;
+  videoSrc: string;
 };
 
-export default function HeroView({ poster, videoSrc }: Props) {
+export default function HeroView({ videoSrc }: Props) {
   const ref = useRef<HTMLElement>(null);
   const video = useRef<HTMLVideoElement>(null);
   const [videoReady, setVideoReady] = useState(false);
-  const [videoOn, setVideoOn] = useState(false);
   const heroVisible = useRef(true);
+  const reducedMotion = useRef(false);
 
-  // The poster is the LCP image; the video must not compete with it. Attach the
-  // source only after load + idle, only where the video is shown (≥768px), and
-  // never for reduced-motion or data-saver users.
-  useEffect(() => {
-    if (!videoSrc) return;
-    const mq = (q: string) => window.matchMedia(q).matches;
-    const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData;
-    if (!mq("(min-width: 768px)") || mq("(prefers-reduced-motion: reduce)") || saveData) return;
-
-    let idle = 0;
-    const start = () => {
-      idle = window.requestIdleCallback
-        ? window.requestIdleCallback(() => setVideoOn(true), { timeout: 2000 })
-        : window.setTimeout(() => setVideoOn(true), 200);
-    };
-    if (document.readyState === "complete") start();
-    else window.addEventListener("load", start, { once: true });
-    return () => {
-      window.removeEventListener("load", start);
-      if (window.cancelIdleCallback) window.cancelIdleCallback(idle);
-      else clearTimeout(idle);
-    };
-  }, [videoSrc]);
-
-  // Pause the video while the hero is scrolled out of view.
+  // Play while the hero is in view; reduced-motion users get the still first frame.
   useEffect(() => {
     const el = video.current;
-    if (!videoOn || !el || !ref.current) return;
+    if (!el || !ref.current) return;
+    reducedMotion.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reducedMotion.current) {
+      el.pause();
+      return;
+    }
     const observer = new IntersectionObserver(([entry]) => {
       heroVisible.current = entry.isIntersecting;
       if (entry.isIntersecting) el.play().catch(() => {});
@@ -55,7 +31,7 @@ export default function HeroView({ poster, videoSrc }: Props) {
     });
     observer.observe(ref.current);
     return () => observer.disconnect();
-  }, [videoOn]);
+  }, []);
 
   useGSAP(
     () => {
@@ -111,40 +87,27 @@ export default function HeroView({ poster, videoSrc }: Props) {
       {/* Media */}
       <div data-hero-parallax className="absolute inset-0 -z-10">
         <div data-hero-media className="absolute inset-0">
-          <picture>
-            {poster.mobile && (
-              <source media="(max-width: 767px), (orientation: portrait)" srcSet={poster.mobile} />
-            )}
-            {poster.desktop && (
-              <source media="(min-width: 768px)" srcSet={poster.desktop} />
-            )}
-            {/* eslint-disable-next-line jsx-a11y/alt-text -- decorative, alt="" comes from props */}
-            <img
-              {...poster.img}
-              fetchPriority="high"
-              loading="eager"
-              className="size-full object-cover object-[50%_45%]"
-            />
-          </picture>
-
-          {videoSrc && videoOn && (
-            <video
-              ref={video}
-              className={`absolute inset-0 hidden size-full object-cover transition-opacity duration-1000 md:block ${
-                videoReady ? "opacity-100" : "opacity-0"
-              }`}
-              src={videoSrc}
-              muted
-              loop
-              playsInline
-              preload="auto"
-              aria-hidden
-              onCanPlay={(e) => {
-                if (heroVisible.current) e.currentTarget.play().catch(() => {});
-                setVideoReady(true);
-              }}
-            />
-          )}
+          <video
+            ref={video}
+            className={`absolute inset-0 size-full object-cover transition-opacity duration-1000 ${
+              videoReady ? "opacity-100" : "opacity-0"
+            }`}
+            src={videoSrc}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            aria-hidden
+            onLoadedData={() => setVideoReady(true)}
+            onEnded={(e) => {
+              // Fallback in case a browser ignores `loop`.
+              if (heroVisible.current && !reducedMotion.current) {
+                e.currentTarget.currentTime = 0;
+                e.currentTarget.play().catch(() => {});
+              }
+            }}
+          />
         </div>
       </div>
 
@@ -169,7 +132,7 @@ export default function HeroView({ poster, videoSrc }: Props) {
         className="pointer-events-none mt-[calc(var(--nav-height)+2svh)] overflow-hidden text-center"
       >
         <p data-hero-wordmark className="wordmark opacity-90">
-          NOCTRA
+          LUMÈRE
         </p>
       </div>
 
@@ -193,7 +156,7 @@ export default function HeroView({ poster, videoSrc }: Props) {
 
         <div className="flex flex-col items-start gap-6 md:ml-auto md:max-w-sm">
           <p data-hero-fade className="text-small text-white-soft">
-            Beyond the showroom. NOCTRA sources, inspects and delivers
+            Beyond the showroom. LUMÈRE sources, inspects and delivers
             performance and luxury cars for drivers who notice the details.
           </p>
           <div data-hero-fade className="flex flex-wrap gap-3">

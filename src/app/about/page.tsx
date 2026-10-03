@@ -10,7 +10,7 @@ import Reveal from "@/components/animations/Reveal";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "NOCTRA is an independent showroom for performance and luxury cars, built around honest presentation and specialist knowledge.",
+    "LUMÈRE is an independent showroom for performance and luxury cars, built around honest presentation and specialist knowledge.",
 };
 
 const principles = [
@@ -34,11 +34,11 @@ const principles = [
 export default function AboutPage() {
   return (
     <>
-      <h1 className="sr-only">About NOCTRA</h1>
+      <h1 className="sr-only">About LUMÈRE</h1>
       <CollectionBanner
         word="Heritage"
         image="/assets/images/sections/showroom.jpg"
-        alt="The NOCTRA showroom floor"
+        alt="The LUMÈRE showroom floor"
         focus="40% 55%"
       />
       <IntroStats />
