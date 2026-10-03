@@ -9,7 +9,6 @@ import { useLenis } from "./SmoothScroll";
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [hidden, setHidden] = useState(false);
   const pathname = usePathname();
   const lenis = useLenis();
 
@@ -21,15 +20,10 @@ export default function Navbar() {
   }
 
   useEffect(() => {
-    let last = window.scrollY;
     let frame = 0;
     const update = () => {
       frame = 0;
-      const y = window.scrollY;
-      setScrolled(y > 40);
-      // Tuck the bar away while scrolling down, bring it back on the way up.
-      setHidden(y > 400 && y > last);
-      last = y;
+      setScrolled(window.scrollY > 40);
     };
     // At most one state update per frame, however often scroll fires.
     const onScroll = () => {
@@ -58,9 +52,7 @@ export default function Navbar() {
         Skip to content
       </a>
       <header
-        className={`fixed inset-x-0 top-0 z-(--z-nav) transition-[transform,background-color,border-color] duration-(--transition-slow) ease-out ${
-          hidden && !open ? "-translate-y-full" : "translate-y-0"
-        } ${
+        className={`fixed inset-x-0 top-0 z-(--z-nav) transition-[background-color,border-color] duration-(--transition-base) ease-out ${
           scrolled && !open
             ? "border-b border-line-soft bg-black/85 backdrop-blur-md"
             : "border-b border-transparent bg-transparent"
